@@ -1,0 +1,127 @@
+{
+  "produces": ["application/json"],
+  "swagger": "2.0",
+  "info": {
+    "contact": {}
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "Register a new user",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["auth"],
+        "summary": "Register a new user",
+        "parameters": [
+          {
+            "description": "User",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.userRegisterReq"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/api.userResponse"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/api.Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "api.Error": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "api.addCommentReq": {
+      "type": "object",
+      "required": ["comment"],
+      "properties": {
+        "comment": {
+          "type": "object",
+          "required": ["body"],
+          "properties": {
+            "body": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "api.userRegisterReq": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "required": ["email", "password", "username"],
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "api.userResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "bio": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
